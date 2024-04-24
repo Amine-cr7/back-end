@@ -12,7 +12,7 @@ class Commande extends Model
         return $this->belongsTo(User::class);
     }
     public function produits(){
-        return $this->belongsToMany(Produit::class);
+        return $this->belongsToMany(Produit::class)->withPivot('qnt');
     }
     public function paiements(){
         return $this->hasMany(Paiement::class);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\commande;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CommandeController extends Controller
@@ -10,9 +11,14 @@ class CommandeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($user_Id)
     {
-        
+        $user = User::find($user_Id);
+        if ($user) {
+            $commandes = $user->commandes()->where('status', 'pending')->with('produits')->get();
+            return $commandes;
+        }
+        return response()->json(['message' => 'User not found'], 404);
     }
 
     /**
@@ -28,7 +34,22 @@ class CommandeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user_Id = $request['user_id'];
+        $user = User::find($user_Id);
+        if ($user) {
+            $commande = new Commande;
+            $commande->status = 'pending';
+            $user->commandes()->save($commande);
+
+            $produits = $request->input('produits');
+            foreach ($produits as $produit) {
+                $commande->produits()->attach($produit['produit_id'], ['qnt' => $produit['quantity']]);
+                
+            }
+            
+        }
+
+        return response()->json(['message' => 'User not found'], 404);
     }
 
     /**

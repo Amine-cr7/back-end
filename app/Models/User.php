@@ -41,10 +41,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function paniers(){
-        return $this->hasMany(Panier::class);
+    public function cart(){
+        return $this->hasOne(Cart::class);
     }
+   
 
     public function commandes(){
         return $this->hasMany(Commande::class);
@@ -52,4 +52,9 @@ class User extends Authenticatable
     public function favorites(){
         return $this->belongsToMany(Produit::class,'favorites');
     }
+    public function information()
+    {
+        return $this->hasOne(UserInformation::class);
+    }
+
 }

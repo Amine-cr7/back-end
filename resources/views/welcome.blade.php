@@ -7,6 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <img src="{{ asset('storage/images/rvncog7OAZnJZeWoKBqUEjvUgtOA1LmQlzDnkKeu.webp') }}" alt="" srcset="">
+    
 </body>
 </html>
